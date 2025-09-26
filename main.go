@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"net/http"
+	"time"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -35,18 +36,32 @@ func submitHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Header().Set("Content-Type", "application/json")
-	var resp map[string]string
+	if data.Number < 0 || data.Number > 99 {
+		http.Error(w, "Number must be between 0 and 99", http.StatusBadRequest)
+		return
+	}
 
-	if rand.Intn(100) == data.Number {
-		resp = map[string]string{"message": "Congratulations"}
+	w.Header().Set("Content-Type", "application/json")
+	var resp map[string]interface{}
+
+	target := rand.Intn(100)
+	fmt.Printf("Received guess: %d, Target: %d\n", data.Number, target)
+	if target == data.Number {
+		resp = map[string]interface{}{
+			"message": "Congratulations",
+			"target":  target,
+		}
 	} else {
-		resp = map[string]string{"message": "Try Again"}
+		resp = map[string]interface{}{
+			"message": "Try Again",
+			"target":  target,
+		}
 	}
 	json.NewEncoder(w).Encode(resp)
 }
 
 func main() {
+	rand.Seed(time.Now().UnixNano())
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)
 	r.Use(corsMiddleware)

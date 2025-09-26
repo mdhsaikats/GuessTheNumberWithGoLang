@@ -3,31 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="icon" type="image/png" href="assets/question.png">
     <title>Guess The Number</title>
 </head>
 <body class="bg-gradient-to-br from-gray-900 to-gray-800 text-white min-h-screen flex items-center justify-center">
-    <div class="bg-gray-900 bg-opacity-90 rounded-xl shadow-lg p-8 w-full max-w-md flex flex-col items-center">
-        <img src="asset/question.png" alt="Guess Icon" class="w-16 h-16 mb-4">
-        <h1 class="text-3xl font-extrabold mb-2 text-blue-400 tracking-wide">Guess the Number</h1>
-        <p class="mb-6 text-gray-400 text-center">I'm thinking of a number between 0 and 99.<br>Can you guess it?</p>
-        <input 
-            type="number" 
-            class="border-2 border-blue-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-500 p-3 rounded-lg bg-gray-800 text-white mb-4 w-full text-center text-lg transition"
-            placeholder="Enter your guess" 
-            id="guessInput"
-            min="0"
-            max="99"
-        >
-        <button 
-            onclick="sendData()" 
-            class="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition mb-2 w-full"
-        >
-            Submit
-        </button>
-        <p class="mt-4 text-lg text-yellow-400 font-medium min-h-[2rem]" id="feedback"></p>
-    </div>
+    <main>
+        <div class="bg-gray-900 bg-opacity-90 rounded-xl shadow-lg p-8 w-full max-w-md flex flex-col items-center">
+            <img src="assets/question.png" alt="Guess Icon" class="w-16 h-16 mb-4">
+            <h1 class="text-3xl font-extrabold mb-2 text-blue-400 tracking-wide">Guess the Number</h1>
+            <p class="mb-6 text-gray-400 text-center">I'm thinking of a number between 0 and 99.<br>Can you guess it?</p>
+            <label for="guessInput" class="mb-2 text-gray-300">Your Guess:</label>
+            <input 
+                type="number" 
+                class="border-2 border-blue-500 focus:border-blue-400 focus:ring-2 focus:ring-blue-500 p-3 rounded-lg bg-gray-800 text-white mb-4 w-full text-center text-lg transition"
+                placeholder="Enter your guess" 
+                id="guessInput"
+                min="0"
+                max="99"
+                required
+                autocomplete="off"
+            >
+            <button 
+                type="button"
+                onclick="sendData()" 
+                class="bg-blue-500 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-600 transition mb-2 w-full"
+            >
+                Submit
+            </button>
+            <p class="mt-4 text-lg text-yellow-400 font-medium min-h-[2rem]" id="feedback"></p>
+        </div>
+    </main>
     <script src="script.js"></script>
 </body>
 </html>

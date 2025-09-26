@@ -1,16 +1,38 @@
-function sendData(){
-    const num = Number(document.getElementById("guessInput").value); // <-- Convert to number
-    console.log("value from the input:", num);
+function sendData() {
+    const input = document.getElementById("guessInput");
+    const feedback = document.getElementById("feedback");
+    const button = document.querySelector("button[onclick='sendData()']");
+    const num = Number(input.value);
 
-    fetch("http://localhost:8080/submit",{
+    // Validate input
+    if (isNaN(num) || num < 0 || num > 99) {
+        feedback.innerHTML = "Please enter a number between 0 and 99.";
+        return;
+    }
+
+    button.disabled = true;
+
+    fetch("http://localhost:8080/submit", {
         method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({ num: num }) // <-- Send as number
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ num: num })
     })
     .then(res => res.json())
     .then(data => {
-        console.log("Response: ", data);
-        document.getElementById("feedback").innerHTML = data.message || JSON.stringify(data);
+        feedback.innerHTML = `${data.message} (Target: ${data.target})`;
     })
-    .catch(err => console.error("Error", err));
+    .catch(err => {
+        feedback.innerHTML = "Server error. Please try again.";
+        console.error("Error", err);
+    })
+    .finally(() => {
+        input.value = "";
+        button.disabled = false;
+    });
 }
+
+document.getElementById("guessInput").addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+        sendData();
+    }
+});
